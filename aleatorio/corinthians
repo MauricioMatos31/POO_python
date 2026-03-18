@@ -1,0 +1,95 @@
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout, QMessageBox, QStackedWidget
+from PyQt5.QtGui import QPixmap, QCursor
+from PyQt5.QtCore import Qt
+
+telaPrincipal = None
+cursor = r"C:\Users\mauricio.msmatos\Downloads\icons8-dedo-do-meio-50.png"
+
+
+#criando as funçoes
+
+def abrirTelaPrincipal():
+    global telaPrincipal
+    telaPrincipal = QWidget()
+    telaPrincipal.setWindowTitle("Tela Principal")
+    telaPrincipal.setStyleSheet("background-color: black;")
+
+    
+    label = QLabel()
+    pixmap = QPixmap(r"C:\Users\mauricio.msmatos\Downloads\OIP.webp")
+    label.setPixmap(pixmap)
+    label.setAlignment(Qt.AlignCenter)
+
+    layout = QVBoxLayout()
+    layout.addWidget(label, alignment=Qt.AlignCenter)
+ 
+    telaPrincipal.setLayout(layout)
+
+    
+    botaoSair = QPushButton("Sair")
+    botaoSair.clicked.connect(lambda: stack.setCurrentIndex(0))
+    layout.addWidget(botaoSair, alignment=Qt.AlignCenter)
+
+    return telaPrincipal
+
+
+def validarLogin():
+    usuario = inputUsuario.text()
+    senha = inputSenha.text()
+
+    if usuario == "" or senha == "":
+        QMessageBox.warning(tela1, "Campos vazios", "Por favor, preencha todos os campos")
+    elif usuario == senha:
+        QMessageBox.critical(tela1, "Erro de login", "Usuário e senha não podem ser iguais")
+    elif usuario == "admin" and senha == "12345":
+        QMessageBox.information(tela1, "Login bem sucedido", "Bem-vindo!")
+        stack.setCurrentIndex(1)
+        limparCampos()
+    else:
+        QMessageBox.critical(tela1, "Erro de login", "Usuário ou senha incorretos")
+        limparCampos()
+
+def limparCampos():
+    inputUsuario.clear()
+    inputSenha.clear()
+    inputUsuario.setFocus()
+
+
+app = QApplication(sys.argv)
+
+#criando tela de login
+tela1 = QWidget()
+tela1.setWindowTitle("Tela de login")
+tela1.setGeometry(850, 300, 300, 200)
+
+pix_cursor = QPixmap(cursor)
+cursor = QCursor(pix_cursor, hotX=0, hotY=0)
+tela1.setCursor(cursor)
+
+labelUsuario = QLabel("Usuário:", tela1)
+labelUsuario.move(80, 35)
+inputUsuario = QLineEdit(tela1)
+inputUsuario.move(80, 50)
+
+labelSenha = QLabel("Senha:", tela1)
+labelSenha.move(80, 85)
+inputSenha = QLineEdit(tela1)
+inputSenha.move(80, 100)
+inputSenha.setEchoMode(QLineEdit.Password)
+
+botaoLogin = QPushButton("Login", tela1)
+botaoLogin.move(102, 140)
+botaoLogin.clicked.connect(validarLogin)
+
+
+telaPrincipal = abrirTelaPrincipal()
+
+# criando stack de telas
+stack = QStackedWidget()
+stack.addWidget(tela1)
+stack.addWidget(telaPrincipal)
+stack.resize(300, 400)
+stack.show()
+
+sys.exit(app.exec_())

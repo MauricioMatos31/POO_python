@@ -1,0 +1,57 @@
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QPushButton, QLineEdit, QMessageBox
+from PyQt5 import uic
+
+#criando as funçoes
+
+def validarCampos():
+    usuario = telaLogin.caixaTextoUsuario.text()
+    senha = telaLogin.caixaTextoSenha.text()
+
+    if usuario == "" or senha == "":
+        QMessageBox.warning(telaLogin, "Atenção", "Preencha todos os campos")
+        limparCampos()
+    elif usuario == senha:
+        QMessageBox.warning(telaLogin, "Atenção", "usuario e senha não podem ser iguais")
+        limparCampos()
+    else:
+        login(usuario,senha)
+    
+
+#funçao de login
+
+def login(usuario, senha):
+    if usuario == "admin" and senha == "12345":
+
+      QMessageBox.information(telaLogin, "login bem sucedido")
+    else:
+      QMessageBox.critical(telaLogin, "erro de login", "usuario ou senha incorretos")
+    limparCampos()
+
+#funçao limpar campos
+def limparCampos():
+    telaLogin.caixaTextoUsuario.clear()
+    telaLogin.caixaTextoSenha.clear()
+    telaLogin.caixaTextoUsuario.setFocus()
+
+
+    #criando aplicativo
+app = QApplication(sys.argv)
+
+#criando tela de login
+
+telaLogin = uic.loadUi('janela.ui')
+#criando botao login
+
+telaLogin.botaoLogin.clicked.connect(validarCampos)
+telaLogin.botaoLogin.clicked.connect(login)
+
+
+#exibindo tela de login
+
+telaLogin.show()
+#inicando loop de eventos
+
+sys.exit(app.exec_())
+
+

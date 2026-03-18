@@ -1,0 +1,48 @@
+import sys
+
+class midia:
+    def exibir_info(self):
+        return NotImplementedError("O método exibir_info() deve ser implementado pelas subclasses") 
+
+
+class livro(midia):
+    def __init__ (self, titulo, autor, paginas):
+        self.titulo = titulo
+        self.autor = autor
+        self.paginas = paginas
+        self.exibir_info()
+        print(f"Livro: {self.titulo}, Autor: {self.autor}, Páginas: {self.paginas}")
+        
+
+
+  
+class filme(midia):
+   def __init__ (self, titulo, diretor, duracao):
+        self.titulo = titulo   
+        self.diretor = diretor
+        self.duracao = duracao
+        self.exibir_info()
+        print(f"Filme: {self.titulo}, Diretor: {self.diretor}, Duração: {self.duracao} minutos")
+
+class musica(midia):
+    def __init__ (self, titulo, artista, duracao):
+        self.titulo = titulo
+        self.artista = artista
+        self.duracao = duracao
+        self.exibir_info()
+        print(f"Música: {self.titulo}, Artista: {self.artista}, Duração: {self.duracao} minutos")
+        
+
+livro1 = livro("O Senhor dos Anéis", "J.R.R. Tolkien", 1178)
+filme1 = filme("O Senhor dos Anéis: A Sociedade do Anel", "Peter Jackson", 178)
+musica1 = musica("a lot", "21 Savage", 3.02)
+
+for midia in (livro1, filme1, musica1):
+ midia.exibir_info()
+                    
+
+
+
+
+
+
